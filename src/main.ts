@@ -4,6 +4,12 @@ import { levels } from "../vendor/queens-game-linkedin/src/utils/levels";
 import chalk from "chalk";
 import { Level } from "../vendor/queens-game-linkedin/src/utils/types";
 
+function log(...args: any[]) {
+  if (process.env.DEBUG) {
+    console.log(...args);
+  }
+}
+
 function main() {
   // Parse arguments.
   const args = parseArgs({
@@ -25,7 +31,7 @@ function main() {
 
   // Solve for queen positions.
   const queenPositions = solve(level);
-  console.log("Solved", { queenPositions });
+  log("Solved", { queenPositions });
 
   // Print board.
   let y = 0;
@@ -80,7 +86,7 @@ function solve(level: Level): Position[] {
   if (!result) {
     throw new Error("Failed to solve");
   }
-  console.log("Solved with regions", { queenPositions });
+  log("Solved with regions", { queenPositions });
   return Object.values(queenPositions);
 }
 
@@ -90,7 +96,7 @@ function solveRecurse(
   queenPositions: { [region: string]: [number, number] },
   remainingRegions: string[]
 ): boolean {
-  console.log("Trying board", { queenPositions, remainingRegions });
+  log("Trying board", { queenPositions, remainingRegions });
   if (!checkBoard(size, queenPositions)) {
     return false;
   }
@@ -134,7 +140,7 @@ function checkBoard(
   size: number,
   queenPositions: { [region: string]: [number, number] }
 ): boolean {
-  console.log("Checking board", { queenPositions });
+  log("Checking board", { queenPositions });
   // By construction, no two queens can be in the same region, so we don't need
   // to test for that.
 
@@ -146,13 +152,13 @@ function checkBoard(
     // If a queen position has been set in the current row or column, then this
     // board must be invalid.
     if (queensByRow[y] !== null) {
-      console.log(
+      log(
         `Queen at (${x}, ${y}) is in the same row as existing queen at (${queensByRow[y]}, ${y})`
       );
       return false;
     }
     if (queensByColumn[x] !== null) {
-      console.log(
+      log(
         `Queen at (${x}, ${y}) is in the same column as existing queen at (${x}, ${queensByColumn[x]})`
       );
       return false;
@@ -178,7 +184,7 @@ function checkBoard(
     if (y > 0) {
       const queenAbove = queensByRow[y - 1];
       if (queenAbove === x + 1) {
-        console.log(
+        log(
           `Queen at (${x}, ${y}) is diagonally adjacent to queen at (${queenAbove}, ${
             y - 1
           })`
@@ -186,7 +192,7 @@ function checkBoard(
         return false;
       }
       if (queenAbove === x - 1) {
-        console.log(
+        log(
           `Queen at (${x}, ${y}) is diagonally adjacent to queen at (${queenAbove}, ${
             y - 1
           })`
@@ -198,7 +204,7 @@ function checkBoard(
     if (y < size - 1) {
       const queenBelow = queensByRow[y + 1];
       if (queenBelow === x + 1) {
-        console.log(
+        log(
           `Queen at (${x}, ${y}) is diagonally adjacent to queen at (${queenBelow}, ${
             y + 1
           })`
@@ -206,7 +212,7 @@ function checkBoard(
         return false;
       }
       if (queenBelow === x - 1) {
-        console.log(
+        log(
           `Queen at (${x}, ${y}) is diagonally adjacent to queen at (${queenBelow}, ${
             y + 1
           })`
@@ -216,6 +222,6 @@ function checkBoard(
     }
   }
 
-  console.log("Board is valid");
+  log("Board is valid");
   return true;
 }
