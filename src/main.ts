@@ -1,6 +1,7 @@
 import { parseArgs } from "node:util";
 
 import { levels } from "../vendor/queens-game-linkedin/src/utils/levels";
+import { communityLevels } from "../vendor/queens-game-linkedin/src/utils/communityLevels";
 import chalk from "chalk";
 import { Level } from "../vendor/queens-game-linkedin/src/utils/types";
 
@@ -15,6 +16,7 @@ function main() {
   const args = parseArgs({
     options: {
       level: { type: "string" },
+      community: { type: "boolean" },
     },
   });
   if (!args.values.level) {
@@ -23,7 +25,9 @@ function main() {
   }
 
   // Load level.
-  const level = levels["level" + args.values.level];
+  const level = (args.values.community ? communityLevels : levels)[
+    "level" + args.values.level
+  ];
   if (!level) {
     console.error("Invalid level");
     process.exit(1);
