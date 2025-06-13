@@ -1,0 +1,17 @@
+{
+  "name": "queens-solver",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/main.ts --format=esm --sourcemap --platform=node --bundle --outfile=dist/main.js",
+    "clean": "rm -rf dist",
+    "start": "node --enable-source-maps dist/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "esbuild": "^0.25.5"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
+  }
+}

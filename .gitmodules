@@ -1,0 +1,3 @@
+[submodule "vendor/queens-game-linkedin"]
+	path = vendor/queens-game-linkedin
+	url = git@github.com:samimsu/queens-game-linkedin.git
